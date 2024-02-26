@@ -90,12 +90,33 @@ class Mosyle:
 
     # Returns all accounts form https://managerapi.mosyle.com/v2/accounts
     def list_accounts(self) -> dict:
-        return
+        data = {
+            'accessToken': self.__access_token,
+        }
+                
+        resp = self.__s.post('https://managerapi.mosyle.com/v2/accounts', json=data)
+        
+        return resp.json()
 
     # -- Methods for updating data --
     # Updates a device using https://managerapi.mosyle.com/v2/devices
-    def update_device(self, serial_number, asset_tag: str = None, tags: str = None, name: str = None, lock: str = None) -> None:
-        return
+    def update_device(self, serial_number: str, asset_tag: str = None, tags: str = None, name: str = None, lock: str = None) -> dict:
+        data = {
+            'accessToken': self.__access_token,
+            'elements': {
+                'serialnumber': serial_number,
+                **{key: value for key, value in {
+                    'asset_tag': asset_tag,
+                    'tags': tags,
+                    'name': name,
+                    'lock': lock
+                }.items() if value}
+            }
+        }
+                
+        resp = self.__s.post('https://managerapi.mosyle.com/v2/devices', json=data)
+        
+        return resp.json()
     
     # Bulk commands will be implemented later
     
