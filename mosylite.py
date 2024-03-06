@@ -25,7 +25,7 @@ class Mosyle:
         return resp.headers['Authorization'].split(' ')[-1]
         
     # Returns devices from https://managerapi.mosyle.com/v2/listdevices
-    def list_devices(self, os: Literal['ios', 'mac', 'tvos'], tags: List[str] = [], osversions: List[str] = [], serial_numbers: List[str] = [], page: int = 0, specific_columns: List[str] = []) -> dict:
+    def list_devices(self, os: Literal['ios', 'mac', 'tvos'], tags: List[str] = [], osversions: List[str] = [], serial_numbers: List[str] = [], page: int = 0, page_size: int = 400, specific_columns: List[str] = []) -> dict:
         data = {
             'accessToken': self.__access_token,
             'options': {
@@ -35,6 +35,7 @@ class Mosyle:
                     'osversions': osversions,
                     'serial_numbers': serial_numbers,
                     'page': page,
+                    'page_size': page_size,
                     'specific_columns': specific_columns
                 }.items() if value}
             }
